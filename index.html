@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>متجر فخم للكوتشي والملابس — ملف واحد</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f15;
+      --card:#0f1724;
+      --muted:#9aa6b2;
+      --accent:#ffb86b;
+      --accent-2:#ff6b6b;
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
+      color-scheme: dark;
+      font-family: 'Cairo', 'Poppins', system-ui, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:radial-gradient(1200px 400px at 10% 10%, rgba(255,184,107,0.06), transparent), linear-gradient(180deg,#071019 0%, #07131a 100%);color:#e6eef6}
+
+    /* Layout */
+    header{position:fixed;inset:0 0 auto 0;height:76px;display:flex;align-items:center;justify-content:space-between;padding:12px 6%;backdrop-filter: blur(6px);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));z-index:60}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#07131a}
+    .brand h1{font-size:18px;margin:0}
+    nav{display:flex;gap:18px;align-items:center}
+
+    .search{display:flex;align-items:center;gap:8px;background:var(--glass);padding:8px 12px;border-radius:999px;min-width:320px;margin-left:8px}
+    .search input{background:transparent;border:0;outline:0;color:var(--muted);width:220px}
+
+    .actions{display:flex;gap:12px;align-items:center}
+    .icon-btn{background:transparent;border:0;color:var(--muted);cursor:pointer;padding:8px;border-radius:10px}
+    .cta{background:linear-gradient(90deg,var(--accent) 0%, var(--accent-2) 100%);padding:10px 16px;border-radius:12px;border:0;color:#07131a;font-weight:700;cursor:pointer}
+
+    /* Hero */
+    .hero{margin-top:96px;padding:56px 6%;display:grid;grid-template-columns:1fr 520px;gap:32px;align-items:center}
+    .hero-left{max-width:760px}
+    .eyebrow{font-size:13px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+    .hero h2{font-size:44px;line-height:1.05;margin:12px 0}
+    .hero p{color:var(--muted);font-size:15px;margin-bottom:20px}
+    .hero-cta{display:flex;gap:12px;align-items:center}
+
+    .showcase{position:relative;border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+    .showcase img{width:100%;height:100%;object-fit:cover;display:block}
+    .showcase::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(2,6,23,0.6));}
+
+    /* Filters bar */
+    .filters{display:flex;gap:10px;padding:12px 6%;align-items:center}
+    .filter-chip{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:999px;color:var(--muted);cursor:pointer}
+    .filter-chip.active{background:linear-gradient(90deg,var(--accent-2),var(--accent));color:#07131a;border:0}
+
+    /* Main area */
+    .container{padding:18px 6% 80px}
+    .controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:12px}
+    .sort{display:flex;gap:8px;align-items:center}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+
+    .product {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 14px;
+  padding: 12px;
+  overflow: hidden;
+  transition: transform 0.28s cubic-bezier(.2,.9,.3,1), box-shadow 0.28s, border 0.28s;
+  cursor: grab;
+  border: 1px solid rgba(255,255,255,0.06); /* حد خفيف يفرق الكارت */
+}
+
+.product:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 22px 50px rgba(2,6,23,0.6);
+  border-color: rgba(255,255,255,0.1); /* تأثير بسيط على الحد عند المرور */
+}
+
+.product .img {
+  height: 220px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.product img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s;
+}
+
+.product:hover img {
+  transform: scale(1.07);
+}
+
+.product a {
+  text-decoration: none;
+}
+
+
+
+    .meta{display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .meta .title{font-weight:600}
+    .meta .price{font-weight:700;color:var(--accent-2)}
+
+    .product .bottom{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+    .btn-small{padding:8px 12px;border-radius:10px;border:0;cursor:pointer}
+    .btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .btn-primary{background:linear-gradient(90deg,var(--accent) 0%, var(--accent-2) 100%);color:#07131a}
+
+    /* Drawer cart */
+    .cart-drawer{position:fixed;top:84px;right:24px;width:380px;max-width:94%;background:linear-gradient(180deg,#07131a,#09131a);border-radius:14px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,0.6);transform:translateX(120%);transition:transform .38s cubic-bezier(.2,.9,.3,1);z-index:80}
+    .cart-drawer.open{transform:translateX(0)}
+    .cart-item{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .cart-item img{width:64px;height:64px;border-radius:8px;object-fit:cover}
+
+    /* Toast */
+    .toast{position:fixed;left:24px;bottom:24px;background:linear-gradient(90deg,var(--accent) 0%, var(--accent-2) 100%);color:#07131a;padding:12px 16px;border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,0.4);opacity:0;transform:translateY(10px);transition:all .28s;z-index:90}
+    .toast.show{opacity:1;transform:translateY(0)}
+
+    /* Footer */
+    footer{padding:40px 6%;text-align:center;color:var(--muted);margin-top:40px}
+
+    /* Responsive */
+    @media (max-width:1024px){
+      .hero{grid-template-columns:1fr;gap:20px}
+      .search{min-width:160px}
+      .brand h1{font-size:16px}
+    }
+    @media (max-width:600px){
+      .search{display:none}
+      .hero h2{font-size:28px}
+      header{padding:10px 4%}
+    }
+
+    @keyframes scrollText {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  @media (max-width: 600px) {
+  header .brand > div:nth-child(2) {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-link {
+    display: inline-block; /* يظهر الزر */
+    font-size: 13px;       /* حجم خط مناسب */
+    padding: 6px 12px;     /* مسافات داخل الزر */
+    margin: 0 4px;         /* مسافات بسيطة بين الأزرار */
+  }
+}
+
+@media (max-width: 600px) {
+  .hero h2 {
+    font-size: 14px; /* تصغير من 44px على الموبايل */
+  }
+  .hero p {
+    font-size: 15px; /* تصغير من 15px */
+  }
+}
+
+
+
+
+  .nav-link{background:transparent;border:0;color:var(--muted);cursor:pointer;font-weight:600;
+  padding:8px 14px;border-radius:10px;transition:.2s;}
+.nav-link:hover{background:var(--glass);color:#fff;}
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">MK</div>
+      <div>
+        <h1>متجر MK</h1>
+        <div style="font-size:12px;color:var(--muted)">كوتشي وملابس فاخرة</div>
+      </div>
+      <button class="nav-link" onclick="location.href='index.html'">الرئيسية</button>
+       <button class="nav-link" onclick="location.href='contact.html'">تواصل معنا</button>
+    <button class="nav-link" onclick="location.href='contact.html'">تواصل معنا</button>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35" stroke="#9aa6b2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="11" cy="11" r="5" stroke="#9aa6b2" stroke-width="1.6"></circle></svg>
+        <input id="search" placeholder="ابحث عن منتج، موديل أو ماركة" />
+      </div>
+      <div class="actions">
+<button class="cta" id="openCart" style="display:flex;align-items:center;gap:8px;">
+  <!-- أيقونة السلة -->
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#07131a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="21" r="1"></circle>
+    <circle cx="20" cy="21" r="1"></circle>
+    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+  </svg>
+  
+  <!-- العداد مع أيقونة الشيك -->
+  <span id="cartCount" style="background:#ff6b6b;color:#fff;padding:4px 8px;border-radius:999px;font-weight:700;display:flex;align-items:center;gap:4px">
+    0
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+  </span>
+</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-left">
+        <div class="eyebrow">New Arrival</div>
+        <h2>تسوق أحدث الكوتشيهات والملابس — تصميم فاخر وتجربة مستخدم سلسة</h2>
+        <p>مجموعات مختارة بعناية مع جودة عالية. جرّب الفلاتر الذكية، عرض سريع، وسلة جانبية تفاعلية.</p>
+        <div class="hero-cta">
+          <button class="cta" id="shopNow">تسوق الآن</button>
+          <button class="filter-chip" id="viewOffers">عرض العروض</button>
+        </div>
+
+        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="filter-chip active" data-filter="all">الكل</button>
+          <button class="filter-chip" data-filter="men">رجالي</button>
+          <button class="filter-chip" data-filter="women">حريمي</button>
+          <button class="filter-chip" data-filter="sneakers">كوتشي</button>
+          <button class="filter-chip" data-filter="jackets">جاكيت</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="showcase" style="height:420px">
+          <img src="https://picsum.photos/seed/showcase/900/700" alt="showcase">
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="controls">
+        <div class="sort">
+          <label style="color:var(--muted);font-size:13px;margin-inline-start:8px">ترتيب:</label>
+          <select id="sortSelect" style="background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 10px;border-radius:8px;color:var(--muted)">
+            <option value="new">الأحدث</option>
+            <option value="price-asc">السعر: من الأقل</option>
+            <option value="price-desc">السعر: من الأعلى</option>
+          </select>
+        </div>
+        <div style="color:var(--muted);font-size:13px">عرض <span id="results">0</span> منتج</div>
+      </div>
+
+      <!-- شريط العروض -->
+<div id="promoBanner" style="
+  margin:20px 6%;
+  padding:16px;
+  border-radius:14px;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#07131a;
+  font-weight:700;
+  text-align:center;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  position:relative;
+">
+  <div id="promoText" style="display:inline-block;white-space:nowrap;animation:scrollText 30s linear infinite;">
+    🔥 خصم 20% على جميع الكوتشي لفترة محدودة! استخدم الكود: MK20 &nbsp; &nbsp; 🔥 توصيل مجاني للطلبات فوق 2000 ج.م
+  </div>
+</div>
+
+      <div class="grid" id="grid"></div>
+    </section>
+  </main>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <h3 style="margin:0 0 10px">سلة المشتريات</h3>
+    <div id="cartList"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px">
+      <div>
+        <div style="color:var(--muted);font-size:13px">المجموع</div>
+        <div id="cartTotal" style="font-weight:800;font-size:18px;margin-top:6px">0 ج.م</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-small btn-outline" id="clearCart">تفريغ</button>
+        <button class="btn-small btn-primary" id="checkout">ادفع الآن</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast">تمت الإضافة إلى السلة</div>
+
+  <button id="backToTop" style="
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  background:var(--accent-2);
+  color:#07131a;
+  padding:12px;
+  border-radius:20%;
+  border:none;
+  cursor:pointer;
+  display:none;
+  box-shadow:var(--shadow);
+  z-index:100;
+">↑</button>
+
+
+  <footer>
+    &copy; <span id="year"></span> متجر MK — تصميم راقٍ ومتكامل
+  </footer>
+
+  <script>
+    // --- بيانات المنتجات ---
+    const products = [
+      {id:1,title:'هودي شتوي مبطن',price:1199,brand:'MyBr',category:'sweatshirts',gender:'women',img:'./img/1.jpg'},
+      {id:2,title:'هودي شتوي مبطن',price:1999,brand:'Adidas',category:'sweatshirts',gender:'women',img:'./img/2.jpg'},
+      {id:3,title:'هودي شتوي مبطن',price:999,brand:'Adidas',category:'sweatshirts',gender:'men',img:'./img/3.jpg'},
+      {id:4,title:'هودي شتوي مبطن',price:2799,brand:'Zara',category:'sweatshirts',gender:'women',img:'./img/5.webp'},
+      {id:5,title:'تيشيرت قطن',price:499,brand:'Zara',category:'shirts',gender:'women',img:'./img/6.webp'},
+      {id:6,title:'هودي شتوي',price:699,brand:'H&M',category:'shirts',gender:'men',img:'./img/7.webp'},
+      {id:7,title:'هودي شتوي',price:1899,brand:'Puma',category:'sweatshirts',gender:'men',img:'./img/8.webp'},
+      {id:8,title:'جاكيت شتوي',price:3299,brand:'Adidas',category:'sneakers',gender:'men',img:'./img/9.webp'},
+      {id:9,title:'كوتشي لامع',price:2999,brand:'Gucci',category:'sneakers',gender:'men',img:'./img/10.jpg'},
+      {id:10,title:'سويت شيرت',price:899,brand:'Nike',category:'sneakers',gender:'men',img:'./img/11.jpg'}
+    ];
+
+    // --- state ---
+    let cart = JSON.parse(localStorage.getItem('mk_cart_v2')||'{}');
+
+    // --- dom ---
+    const grid = document.getElementById('grid');
+    const results = document.getElementById('results');
+    const cartCount = document.getElementById('cartCount');
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartList = document.getElementById('cartList');
+    const cartTotal = document.getElementById('cartTotal');
+    const toast = document.getElementById('toast');
+
+    // render products
+    function render(list){
+  grid.innerHTML='';
+  list.forEach(p=>{
+    const el = document.createElement('div');
+    el.className='product';
+    el.innerHTML = `
+      <div class="img"><img src="${p.img}" alt="${p.title}"></div>
+      <div class="meta"><div>
+        <div class="title">${p.title}</div>
+        <div style="color:var(--muted);font-size:13px">${p.brand} • ${p.category}</div>
+      </div>
+      <div class="price">${p.price} ج.م</div></div>
+      <div class="bottom">
+        <a href="product.html?id=${p.id}" class="btn-small btn-primary">شراء</a>
+      </div>
+    `;
+    // إضافة خاصية فتح صفحة المنتج عند الضغط على الكارت أو الصورة
+    el.addEventListener('click', (e) => {
+      // منع تضارب الضغط على زر الشراء أو أي أزرار داخل الكارت
+      if (!e.target.closest('button') && !e.target.closest('a')) {
+        window.location.href = `product.html?id=${p.id}`;
+      }
+    });
+    grid.appendChild(el);
+  });
+  results.textContent = list.length;
+}
+
+
+    // initial
+    render(products);
+    updateCartUI();
+
+    // filters (chips)
+    document.querySelectorAll('.filter-chip').forEach(ch=>ch.addEventListener('click', e=>{
+      document.querySelectorAll('.filter-chip').forEach(x=>x.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      const filter = e.currentTarget.dataset?.filter || 'all';
+      applyFilter(filter);
+    }));
+
+    function applyFilter(filter){
+      let list = products.slice();
+      if(filter && filter!=='all') list = list.filter(p=> p.gender===filter || p.category===filter);
+      render(list);
+    }
+
+    // sort
+    document.getElementById('sortSelect').addEventListener('change', e=>{
+      const v = e.target.value;
+      let list = products.slice();
+      if(v==='price-asc') list.sort((a,b)=>a.price-b.price);
+      if(v==='price-desc') list.sort((a,b)=>b.price-a.price);
+      render(list);
+    });
+
+    // search
+    document.getElementById('search').addEventListener('input', e=>{
+      const q = e.target.value.trim().toLowerCase();
+      const list = products.filter(p=> (p.title+' '+p.brand+' '+p.category).toLowerCase().includes(q));
+      render(list);
+    });
+
+    // cart functions
+    function addToCart(id){
+      const p = products.find(x=>x.id===id);
+      if(!cart[id]) cart[id] = {...p, qty:0};
+      cart[id].qty++;
+      saveCart();
+      showToast('تمت الإضافة إلى السلة');
+      openCart();
+    }
+
+    function saveCart(){
+      localStorage.setItem('mk_cart_v2', JSON.stringify(cart));
+      updateCartUI();
+    }
+
+    function updateCartUI(){
+      const items = Object.values(cart);
+      const count = items.reduce((s,i)=>s+i.qty,0);
+      cartCount.textContent = count;
+      cartList.innerHTML = '';
+      let total = 0;
+      items.forEach(it=>{
+  total += it.qty * it.price;
+  const row = document.createElement('div');
+  row.className='cart-item';
+  row.innerHTML = `
+    <img src="${it.img}" alt="${it.title}">
+    <div style="flex:1">
+      <div style="font-weight:700">${it.title}</div>
+      <div style="color:var(--muted);font-size:13px">
+        ${it.brand} • ${it.price} ج.م
+        ${it.size ? '• مقاس: ' + it.size : ''}
+      </div>
+      <div style="margin-top:8px;display:flex;gap:6px;align-items:center">
+        <button class="btn-small btn-outline" data-action="dec" data-id="${it.id}">-</button>
+        <div style="min-width:22px;text-align:center">${it.qty}</div>
+        <button class="btn-small btn-outline" data-action="inc" data-id="${it.id}">+</button>
+        <button class="btn-small btn-outline" style="margin-inline-start:8px" data-action="remove" data-id="${it.id}">حذف</button>
+      </div>
+    </div>
+  `;
+  cartList.appendChild(row);
+});
+
+      cartTotal.textContent = total + ' ج.م';
+
+      // attach listeners for cart buttons
+      cartList.querySelectorAll('button').forEach(b=>{
+        b.addEventListener('click', e=>{
+          const id = Number(e.currentTarget.dataset.id);
+          const action = e.currentTarget.dataset.action;
+          if(action==='inc') cart[id].qty++;
+          if(action==='dec'){ cart[id].qty--; if(cart[id].qty<=0) delete cart[id]; }
+          if(action==='remove') delete cart[id];
+          saveCart();
+        });
+      });
+    }
+
+    // drawer open/close
+    document.getElementById('openCart').addEventListener('click', ()=>{
+      if(cartDrawer.classList.contains('open')) closeCart(); else openCart();
+    });
+    function openCart(){ cartDrawer.classList.add('open'); cartDrawer.setAttribute('aria-hidden','false'); }
+    function closeCart(){ cartDrawer.classList.remove('open'); cartDrawer.setAttribute('aria-hidden','true'); }
+
+    // clear/checkout
+    document.getElementById('clearCart').addEventListener('click', ()=>{ if(confirm('تفريغ السلة؟')){ cart={}; saveCart(); }});
+    document.getElementById('checkout').addEventListener('click', ()=>{
+      if(Object.keys(cart).length===0){ alert('السلة فارغة'); return; }
+      alert('هذه عملية تجريبية — قم بربط بوابة دفع لاحقاً. شكراً لطلبك!');
+      cart = {};
+      saveCart();
+      closeCart();
+    });
+
+    // small toast helper
+    let toastTimer=null;
+    function showToast(msg){
+      toast.textContent = msg; toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>toast.classList.remove('show'),2500);
+    }
+
+    // cart item delegation (inc/dec/remove)
+    cartList.addEventListener('click', ()=>{});
+
+    // persist on load
+    updateCartUI();
+
+   document.getElementById('shopNow').addEventListener('click', () => {
+  const container = document.querySelector('.container');
+
+  // النزول للمنتجات بسلاسة
+  container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // إضافة تأثير fade-in + slide على كل منتجات الشبكة بعد 300ms
+  setTimeout(() => {
+    const items = container.querySelectorAll('.grid .product');
+    items.forEach((item, i) => {
+      item.style.opacity = 0;
+      item.style.transform = 'translateY(20px)';
+      item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      setTimeout(() => {
+        item.style.opacity = 1;
+        item.style.transform = 'translateY(0)';
+      }, i * 100); // تأثير متسلسل لكل منتج
+    });
+  }, 300);
+});
+
+
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function updateCartCount(){
+  let cart = JSON.parse(localStorage.getItem('mk_cart_v2')||'{}');
+  let total = Object.values(cart).reduce((sum,item)=>sum+item.qty,0);
+  document.getElementById('cartCount').textContent = total;
+}
+updateCartCount();
+
+ const btn = document.getElementById('backToTop');
+
+  // إظهار الزر بعد تمرير الصفحة أكثر من 300px
+  window.addEventListener('scroll', () => {
+    btn.style.display = window.scrollY > 300 ? 'block' : 'none';
+  });
+
+  // العودة للأعلى عند الضغط
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  </script>
+</body>
+</html>
